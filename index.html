@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TasteHub</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding-top: 200px; /* space so content doesn't hide behind banner + cart */
+    }
+    /* App Banner */
+    #app-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(90deg, #4b01f9, #8e8da8);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 32px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      z-index: 1200;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    }
+    /* Cart Bar */
+    #cart {
+      position: fixed;
+      top: 100px; /* sits below banner */
+      left: 0;
+      width: 100%;
+      background: #f8f9fa;
+      padding: 15px;
+      border-bottom: 2px solid #ddd;
+      z-index: 1100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #cart-items {
+      max-height: 80px;
+      overflow-y: auto;
+      flex: 1;
+      margin-left: 20px;
+    }
+    #pay-btn {
+      margin-top: 10px;
+    }
+    .food-card {
+      margin-bottom: 20px;
+      text-align: center;
+      padding: 10px;
+    }
+    .food-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <!-- App Banner -->
+  <div id="app-banner">🍴 TasteHub</div>
+
+  <!-- Cart Section (Sticky Top) -->
+  <div id="cart">
+    <h3>🛒 Cart</h3>
+    <div id="cart-items"></div>
+    <div>
+      <h4 id="total">Total: ₹0</h4>
+      <button id="pay-btn" class="btn btn-success" onclick="payNow()">Pay</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <!-- Example Food Items -->
+      <h3><b>MAIN DISHES</b></h3>
+      <hr>
+      <div class="card col-12 col-sm-6 col-md-3 col-lg-4 food-card">
+        <img src="pizza1.jpg" alt="Pizza" class="img-fluid">
+        <p>PIZZA</p>
+        <p>₹250</p>
+        <button class="btn btn-primary" onclick="addToCart('Pizza', 250)">Add to Cart</button>
+      </div>
+      <div class="card col-12 col-sm-6 col-md-3 col-lg-4 food-card">
+        <img src="BURGER.jpg" alt="Burger" class="img-fluid">
+        <p>CHICKEN BURGER</p>
+        <p>₹180</p>
+        <button class="btn btn-primary" onclick="addToCart('Chicken Burger', 180)">Add to Cart</button>
+      </div>
+      <div class="card col-12 col-sm-6 col-md-3 col-lg-4 food-card">
+        <img src="PASTA.jpg" alt="Pasta" class="img-fluid">
+        <p>PASTA</p>
+        <p>₹220</p>
+        <button class="btn btn-primary" onclick="addToCart('Pasta', 220)">Add to Cart</button>
+      </div>
+      <h3><b>TRADITIONAL DISHES</b></h3>
+      <hr>
+      <div class="card col-12 col-sm-6 col-md-3 col-lg-4 food-card">
+        <img src="PAROTTA.jpg" alt="Parotta" class="img-fluid">
+        <p>MADURAI PAROTTA</p>
+        <p>₹100</p>
+        <button class="btn btn-primary" onclick="addToCart('Madurai Parotta', 100)">Add to Cart</button>
+      </div>
+      <div class="card col-12 col-sm-6 col-md-3 col-lg-4 food-card">
+        <img src="KOTHU.jpg" alt="Kothu Parotta" class="img-fluid">
+        <p>KOTHU PAROTTA</p>
+        <p>₹150</p>
+        <button class="btn btn-primary" onclick="addToCart('Kothu Parotta', 150)">Add to Cart</button>
+      </div>
+      <div class="card col-12 col-sm-6 col-md-3 col-lg-4 food-card">
+        <img src="BUTTERCHIC.jpg" alt="Butter Chicken Naan" class="img-fluid">
+        <p>NORTH INDIAN BUTTER CHICKEN NAAN</p>
+        <p>₹300</p>
+        <button class="btn btn-primary" onclick="addToCart('Butter Chicken Naan', 300)">Add to Cart</button>
+      </div>
+      <h3><b>DESSERTS</b></h3>
+      <hr>
+      <div class="card col-12 col-sm-6 col-md-3 col-lg-4 food-card">
+        <img src="ICECREAM.jpg" alt="Ice Cream" class="img-fluid">
+        <p>OREO ICECREAM</p>
+        <p>₹120</p>
+        <button class="btn btn-primary" onclick="addToCart('Oreo Icecream', 120)">Add to Cart</button>
+      </div>
+      <div class="card col-12 col-sm-6 col-md-3 col-lg-4 food-card">
+        <img src="OIP.webp" alt="Tiramisu" class="img-fluid">
+        <p>TIRAMISU</p>
+        <p>₹200</p>
+        <button class="btn btn-primary" onclick="addToCart('Tiramisu', 200)">Add to Cart</button>
+      </div>
+      <div class="card col-12 col-sm-6 col-md-3 col-lg-4 food-card">
+        <img src="LAVA.jpg" alt="Chocolate Lava Cake" class="img-fluid">
+        <p>CHOCOLATE LAVA CAKE</p>
+        <p>₹180</p>
+        <button class="btn btn-primary" onclick="addToCart('Chocolate Lava Cake', 180)">Add to Cart</button>
+      </div>
+      <h3><b>DRINKS</b></h3>
+      <hr>
+      <div class="card col-12 col-sm-6 col-md-3 col-lg-4 food-card">
+        <img src="MILKSHAKE.jpg" alt="Milkshake" class="img-fluid">
+        <p>OREO MILKSHAKE</p>
+        <p>₹150</p>
+        <button class="btn btn-primary" onclick="addToCart('Oreo Milkshake', 150)">Add to Cart</button>
+      </div>
+      <div class="card col-12 col-sm-6 col-md-3 col-lg-4 food-card">
+        <img src="COFFEE.jpg" alt="Coffee" class="img-fluid">
+        <p>FILTER COFFEE</p>
+        <p>₹80</p>
+        <button class="btn btn-primary" onclick="addToCart('Filter Coffee', 80)">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let cartItems = [];
+    let totalPrice = 0;
+
+    function addToCart(name, price) {
+      cartItems.push({name, price});
+      totalPrice += price;
+      displayCart();
+    }
+
+    function displayCart() {
+      let cartDiv = document.getElementById("cart-items");
+      cartDiv.innerHTML = "";
+      cartItems.forEach((item, index) => {
+        cartDiv.innerHTML += `
+          <span>${item.name} - ₹${item.price} 
+          <button onclick="removeItem(${index})" class="btn btn-sm btn-danger">x</button></span><br>`;
+      });
+      document.getElementById("total").innerText = "Total: ₹" + totalPrice;
+    }
+
+    function removeItem(index) {
+      totalPrice -= cartItems[index].price;
+      cartItems.splice(index, 1);
+      displayCart();
+    }
+
+    function payNow() {
+      if (cartItems.length === 0) {
+        alert("Your cart is empty!");
+      } else {
+        alert("Proceeding to payment... Total: ₹" + totalPrice);
+        // Later you can integrate Razorpay, Stripe, or PayPal here
+      }
+    }
+  </script>
+</body>
+</html>
